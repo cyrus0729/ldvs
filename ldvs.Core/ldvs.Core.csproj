@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Platforms>AnyCPU</Platforms>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="MonoGame.Framework.Native" Version="3.8.*">
+            <PrivateAssets>All</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="MonoSound" Version="1.8.1.1" />
+    </ItemGroup>
+    
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <SongsSourceDir>$(SolutionDir)Songs\</SongsSourceDir>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(Configuration)' == 'Release'">
+        <SongFiles Include="$(SongsSourceDir)**\*.*"/>
+    </ItemGroup>
+    
+    <Target Name="CopySongsToBuildDirectory"
+            AfterTargets="Build"
+            Condition="'$(Configuration)' == 'Release'">
+        <Copy
+                SourceFiles="@(SongFiles)"
+                DestinationFiles="@(SongFiles->'$(OutputPath)Songs\%(RecursiveDir)%(Filename)%(Extension)')"
+                SkipUnchangedFiles="true"/>
+    </Target>
+    
+    
+</Project>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Profile>Reach</Profile>
+  <Platform>DesktopGL</Platform>
+  <Config />
+  <SourceFiles>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Fonts/Hud.spritefont</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/SFX/normal-hitnormal.ogg</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Menu/thing.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/NoteLanes/sp_normalLanes.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/NoteLanes/sp_noteLane_0.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/NoteLanes/sp_noteLane_1.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/NoteLanes/sp_noteLane_2.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/NoteLanes/sp_noteLane_3.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/NoteLanes/sp_noteLane_4.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/Notes/sp_note_bumper_L.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/Notes/sp_note_bumper_R.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/Notes/sp_note_bumper_timing_stargazers_0.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/Notes/sp_note_bumper_timing_stargazers_1.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/Notes/sp_note_bumper_timing_stargazers_2.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/Notes/sp_note_bumper_timing_stargazers_ln0.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/Notes/sp_note_bumper_timing_stargazers_ln1.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/Notes/sp_note_bumper_timing_stargazers_ln2.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/Notes/sp_note_chip_mine_normal_0.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/Notes/sp_noteNew_6.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/Notes/sp_noteNew_7.png</File>
+    <File>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Sprites/Playfield/sp_noteJudgementLine.png</File>
+  </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>

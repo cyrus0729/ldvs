@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SourceFile>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/SFX/normal-hitnormal.ogg</SourceFile>
+  <SourceTime>2026-05-25T23:03:26.8147391+08:00</SourceTime>
+  <DestFile>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/bin/DesktopGL/ldvs/SFX/normal-hitnormal.xnb</DestFile>
+  <DestTime>2026-08-20T23:52:00.9351528+08:00</DestTime>
+  <Importer>OggImporter</Importer>
+  <ImporterTime>2026-08-15T05:50:10+08:00</ImporterTime>
+  <Processor>SongProcessor</Processor>
+  <ProcessorTime>2026-08-15T05:50:10+08:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Parameters>
+    <Key>Version</Key>
+    <Value>3.8.5.1</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput>
+    <string>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/bin/DesktopGL/ldvs/SFX/normal-hitnormal.ogg</string>
+  </BuildOutput>
+</PipelineBuildEvent>

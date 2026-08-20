@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SourceFile>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/Fonts/Hud.spritefont</SourceFile>
+  <SourceTime>2026-08-16T01:26:06.3669972+08:00</SourceTime>
+  <DestFile>D:/Users/cyrus/Desktop/code stuff/ldvs/ldvs.Core/Content/bin/DesktopGL/ldvs/Fonts/Hud.xnb</DestFile>
+  <DestTime>2026-08-16T03:42:28.4602395+08:00</DestTime>
+  <Importer>FontDescriptionImporter</Importer>
+  <ImporterTime>2026-08-15T05:50:10+08:00</ImporterTime>
+  <Processor>FontDescriptionProcessor</Processor>
+  <ProcessorTime>2026-08-15T05:50:10+08:00</ProcessorTime>
+  <Parameters>
+    <Key>PremultiplyAlpha</Key>
+    <Value>True</Value>
+  </Parameters>
+  <Parameters>
+    <Key>TextureFormat</Key>
+    <Value>Compressed</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

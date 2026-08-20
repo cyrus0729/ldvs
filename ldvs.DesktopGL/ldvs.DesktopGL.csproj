@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType Condition="'$(Configuration)' == 'Debug'">Exe</OutputType>
+        <OutputType Condition="'$(Configuration)' != 'Release'">WinExe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <PublishReadyToRun>false</PublishReadyToRun>
+        <TieredCompilation>false</TieredCompilation>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <ApplicationIcon>../ldvs.Core/Content/Icon.ico</ApplicationIcon>
+        
+        <AssemblyName>ldvs</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="..\ldvs.Core\Content/Icon.ico">
+            <LogicalName>Icon.ico</LogicalName>
+        </EmbeddedResource>
+        <EmbeddedResource Include="..\ldvs.Core\Content/Icon.bmp">
+            <LogicalName>Icon.bmp</LogicalName>
+        </EmbeddedResource>
+    </ItemGroup>
+    
+    <ItemGroup>
+        <MonoGameContentReference Include="..\ldvs.Core\Content\ldvs.mgcb">
+            <Link>Content\ldvs.mgcb</Link>
+        </MonoGameContentReference>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ldvs.Core\ldvs.Core.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.*"/>
+        <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*"/>
+        <PackageReference Include="MonoSound" Version="1.8.1.1" />
+    </ItemGroup>
+</Project>
