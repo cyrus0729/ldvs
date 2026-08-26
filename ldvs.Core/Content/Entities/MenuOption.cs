@@ -11,7 +11,7 @@ public class MenuOption
     public Sprite sprite;
     public Vector2 position;
 
-    public float BaseScale { get; }
+    public Vector2 BaseScale { get; }
 
     public MenuOption(Scene sceneTo, Sprite sprite, Vector2 position)
     {
@@ -22,11 +22,6 @@ public class MenuOption
         BaseScale = sprite.Scale; // cache original scale
     }
 
-    public void OnConfirm()
-    {
-        ldvsGame.ChangeScene(sceneTo);
-    }
-
     public void Draw(SpriteBatch spriteBatch)
     {
         sprite.Draw(position);
@@ -35,5 +30,10 @@ public class MenuOption
     public void Draw(SpriteBatch spriteBatch, Vector2 customPosition)
     {
         sprite.Draw(customPosition);
+    }
+
+    public void OnConfirm()
+    {
+        ldvsGame.ChangeScene(sceneTo);
     }
 }

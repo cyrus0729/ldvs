@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using ldvs.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -38,6 +39,21 @@ public abstract class Scene : IDisposable
         => Dispose(false);
 
     /// <summary>
+    /// Disposes of this scene.
+    /// </summary>
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Draws this scene.
+    /// </summary>
+    /// <param name="gameTime">A snapshot of the timing values for the current frame.</param>
+    public virtual void Draw(GameTime gameTime) { }
+
+    /// <summary>
     /// Initializes the scene.
     /// </summary>
     /// <remarks>
@@ -69,21 +85,6 @@ public abstract class Scene : IDisposable
     public virtual void Update(GameTime gameTime) { }
 
     /// <summary>
-    /// Draws this scene.
-    /// </summary>
-    /// <param name="gameTime">A snapshot of the timing values for the current frame.</param>
-    public virtual void Draw(GameTime gameTime) { }
-
-    /// <summary>
-    /// Disposes of this scene.
-    /// </summary>
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    /// <summary>
     /// Disposes of this scene.
     /// </summary>
     /// <param name="disposing">'
@@ -104,5 +105,4 @@ public abstract class Scene : IDisposable
         }
         IsDisposed = true;
     }
-
 }

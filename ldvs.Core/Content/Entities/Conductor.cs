@@ -25,7 +25,8 @@ public static class AudioTypeDetector
         try
         {
             Span<byte> header = stackalloc byte[12];
-            int count = stream.Read(header);
+            stream.Position = 0;
+            int count = stream.ReadAtLeast(header,12);
 
             // XNB files begin with "XNB"
             if (count >= 3 &&
@@ -106,15 +107,15 @@ public class Conductor : IConductor
 
     private StreamPackage _currentBGM;
 
-    public double SongPositionMs { get; private set; }
-    public double SongPositionOffsetMs { get; private set; }
+    public double SongPositionMs { get; set; }
+
+    public double VS_OffsetMs { get; set; }
 
     public void Start(BeatmapSet set, Beatmap map)
     {
         var filePath = Path.Combine(set.FolderPath, map.General.AudioFilename);
         SongOffset = map.General.AudioLeadIn;
 
-        SongPositionOffsetMs = 0;
         SongPositionMs = 0;
 
         byte[] audioBytes = File.ReadAllBytes(filePath);
@@ -131,6 +132,14 @@ public class Conductor : IConductor
         _currentBGM.Play();
     }
 
+    public void Stop()
+    {
+        _currentBGM.Stop();
+        _currentBGM = null;
+        _songSw.Stop();
+        _songBasePos = TimeSpan.Zero;
+    }
+
     public void Update()
     {
         if (_songSw.IsRunning)
@@ -139,20 +148,13 @@ public class Conductor : IConductor
             var pos = _songBasePos + TimeSpan.FromSeconds(_songSw.Elapsed.TotalSeconds);
 
             SongPositionMs = pos.TotalMilliseconds;
-            SongPositionOffsetMs = SongPositionMs + SongOffset; // something might use this so
+            VS_OffsetMs = -SongPositionMs;
         }
-    }
-
-    public void Stop()
-    {
-        _currentBGM.Stop();
-        _currentBGM = null;
-        _songSw.Stop();
-        _songBasePos = TimeSpan.Zero;
     }
 }
 
 public interface IConductor
 {
-    double SongPositionMs { get; }
+    double VS_OffsetMs { get; set; }
+    double SongPositionMs { get; set; }
 }

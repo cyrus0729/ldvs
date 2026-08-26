@@ -7,9 +7,41 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGameLibrary.Graphics;
 
+static class SpriteExtensions
+{
+    public static void CreateBorder(this Sprite sprite, int borderWidth, Color borderColor)
+    {
+        Color[] colors = new Color[(int)(sprite.Scale.X * sprite.Scale.Y)];
+
+        for (int x = 0; x < sprite.Width; x++)
+        {
+            for (int y = 0; y < sprite.Height; y++)
+            {
+                bool colored = false;
+
+                for (int i = 0; i <= borderWidth; i++)
+                {
+                    if (x == i || y == i || x == sprite.Width - 1 - i || y == sprite.Height - 1 - i)
+                    {
+                        colors[(int)(x + y * sprite.Scale.X)] = borderColor;
+                        colored = true;
+
+                        break;
+                    }
+                }
+
+                if (colored == false)
+                    colors[(int)(x + y * sprite.Scale.X)] = Color.Transparent;
+            }
+        }
+
+        sprite.texture.SetData(colors);
+    }
+}
+
+
 public class Sprite
 {
-
     public Texture2D texture { get; set; }
 
     /// <summary>
@@ -31,7 +63,7 @@ public class Sprite
     /// <summary>
     /// Gets or Sets the scale factor to apply to the x- and y-axes when rendering this sprite.
     /// </summary>
-    public float Scale { get; set; } = 1f;
+    public Vector2 Scale { get; set; } = Vector2.One;
 
     /// <summary>
     /// Gets or Sets the xy-coordinate origin point, relative to the top-left corner, of this sprite.
@@ -74,8 +106,8 @@ public class Sprite
 
     public Sprite(Texture2D texture,
                   Color color = default,
-                  float scale = 1f,
-                  Vector2 justify = default, // expect 0..1
+                  Vector2 scale = default,
+                  Vector2 justify = default,
                   float rotation = 0,
                   SpriteEffects spriteEffects = default,
                   float layerDepth = 0)
@@ -86,10 +118,29 @@ public class Sprite
         Width = texture.Width;
         Height = texture.Height;
         Scale = scale;
+        Origin = justify;
 
-        justify = new Vector2(
-            MathHelper.Clamp(justify.X, 0f, 1f),
-            MathHelper.Clamp(justify.Y, 0f, 1f)); // idk what justify negative or above 1 would entail so no >:(
+        Rotation = rotation;
+        Effects = spriteEffects;
+        LayerDepth = layerDepth;
+    }
+
+    public Sprite(Texture2D texture,
+        Color color = default,
+        float scale = 1f,
+        Vector2 justify = default,
+        float rotation = 0,
+        SpriteEffects spriteEffects = default,
+        float layerDepth = 0)
+    {
+        this.texture = texture;
+        Color = color == default ? Color.White : color;
+
+        Width = texture.Width;
+        Height = texture.Height;
+        Scale = Vector2.One*scale;
+
+        justify = new Vector2(MathHelper.Clamp(justify.X, 0f, 1f), MathHelper.Clamp(justify.Y, 0f, 1f)); // idk what justify negative or above 1 would entail so no >:(
 
         Origin = new Vector2(Width * justify.X, Height * justify.Y);
 
@@ -97,7 +148,6 @@ public class Sprite
         Effects = spriteEffects;
         LayerDepth = layerDepth;
     }
-
 
     /// <summary>
     /// Sets the origin of this sprite to the center.

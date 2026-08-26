@@ -103,6 +103,29 @@ namespace ldvs.Core
             IsMouseVisible = true;
         }
 
+        public static void ChangeScene(Scene next)
+        {
+            if (s_activeScene != next)
+            {
+                s_nextScene = next;
+            }
+        }
+
+        /// <summary>
+        /// Draws the game's graphics, called once per frame.
+        /// </summary>
+        /// <param name="gameTime">
+        /// Provides a snapshot of timing values used for rendering.
+        /// </param>
+        protected override void Draw(GameTime gameTime)
+        {
+            if (s_activeScene != null)
+            {
+                s_activeScene.Draw(gameTime);
+            }
+            base.Draw(gameTime);
+        }
+
         /// <summary>
         /// Initializes the game, including setting up localization and adding the 
         /// initial screens to the ScreenManager.
@@ -118,6 +141,8 @@ namespace ldvs.Core
             Audio = new AudioController();
             Input = new InputHandler();
             MonoSoundLibrary.Init(this);
+
+            IsFixedTimeStep = false;
 
             // Load supported languages and set the default language.
             List<CultureInfo> cultures = LocalizationManager.GetSupportedCultures();
@@ -142,6 +167,11 @@ namespace ldvs.Core
         protected override void LoadContent()
         {
             base.LoadContent();
+        }
+
+        protected override void OnExiting(object sender, ExitingEventArgs args)
+        {
+            base.OnExiting(sender, args);
         }
 
         /// <summary>
@@ -170,35 +200,6 @@ namespace ldvs.Core
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// Draws the game's graphics, called once per frame.
-        /// </summary>
-        /// <param name="gameTime">
-        /// Provides a snapshot of timing values used for rendering.
-        /// </param>
-        protected override void Draw(GameTime gameTime)
-        {
-            if (s_activeScene != null)
-            {
-                s_activeScene.Draw(gameTime);
-            }
-            base.Draw(gameTime);
-        }
-
-
-        public static void ChangeScene(Scene next)
-        {
-            if (s_activeScene != next)
-            {
-                s_nextScene = next;
-            }
-        }
-
-        protected override void OnExiting(object sender, ExitingEventArgs args)
-        {
-            base.OnExiting(sender, args);
-        }
-
         private static void TransitionScene()
         {
             // If there is an active scene, dispose of it.
@@ -221,6 +222,5 @@ namespace ldvs.Core
                 s_activeScene.Initialize();
             }
         }
-
     }
 }

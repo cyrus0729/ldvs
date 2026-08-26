@@ -18,11 +18,10 @@ public class TitleScreen : Scene
     LinkedListNode<MenuOption> titlemenuoption;
 
     // In TitleScreen:
-    private Dictionary<MenuOption, float> currentScale = new();
+    private Dictionary<MenuOption, Vector2> currentScale = new();
     private float targetMultiplier = 1.25f;
     private float unselectedMultiplier = 1.0f;
     private float speed = 10f; // higher = faster
-
 
     Sprite start;
     Sprite edit;
@@ -33,6 +32,31 @@ public class TitleScreen : Scene
         Start,
         Loop,
         End,
+    }
+
+    public override void Draw(GameTime gameTime)
+    {
+        var f = Content.Load<SpriteFont>("Fonts/Hud");
+
+        ldvsGame.GraphicsDevice.Clear(Color.LightPink);
+        ldvsGame.SpriteBatch.Begin();
+
+        ldvsGame.SpriteBatch.DrawString(f, "this is the title screen", Vector2.Zero, Color.Black);
+
+        for (var node = titlemenuoptions.First; node != null; node = node.Next)
+        {
+            var opt = node.Value;
+
+            Vector2 prev = opt.sprite.Scale;
+            opt.sprite.Scale = currentScale[opt];
+
+            opt.Draw(ldvsGame.SpriteBatch, new Vector2(opt.position.X, opt.position.Y + FloatFactor));
+
+            opt.sprite.Scale = prev;
+        }
+
+        ldvsGame.SpriteBatch.End();
+        base.Draw(gameTime);
     }
 
     public override void Initialize()
@@ -83,37 +107,11 @@ public class TitleScreen : Scene
         {
             var opt = node.Value;
 
-            float target = opt.BaseScale * (ReferenceEquals(node, titlemenuoption) ? targetMultiplier : unselectedMultiplier);
-            currentScale[opt] = MathHelper.Lerp(currentScale[opt], target, 1f - (float)Math.Exp(-speed * dt));
+            Vector2 target = opt.BaseScale * (ReferenceEquals(node, titlemenuoption) ? targetMultiplier : unselectedMultiplier);
+            currentScale[opt] = Vector2.Lerp(currentScale[opt], target, 1f - (float)Math.Exp(-speed * dt));
         }
 
         FloatFactor = (float)Math.Sin(gameTime.TotalGameTime.TotalMilliseconds/1600)*4;
         base.Update(gameTime);
     }
-
-    public override void Draw(GameTime gameTime)
-    {
-        var f = Content.Load<SpriteFont>("Fonts/Hud");
-
-        ldvsGame.GraphicsDevice.Clear(Color.LightPink);
-        ldvsGame.SpriteBatch.Begin();
-
-        ldvsGame.SpriteBatch.DrawString(f, "this is the title screen", Vector2.Zero, Color.Black);
-
-        for (var node = titlemenuoptions.First; node != null; node = node.Next)
-        {
-            var opt = node.Value;
-
-            float prev = opt.sprite.Scale;
-            opt.sprite.Scale = currentScale[opt];
-
-            opt.Draw(ldvsGame.SpriteBatch, new Vector2(opt.position.X, opt.position.Y + FloatFactor));
-
-            opt.sprite.Scale = prev;
-        }
-
-        ldvsGame.SpriteBatch.End();
-        base.Draw(gameTime);
-    }
-
 }
