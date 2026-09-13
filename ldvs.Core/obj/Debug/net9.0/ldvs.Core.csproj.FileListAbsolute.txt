@@ -12,12 +12,12 @@ D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\ldvs.Core.Gene
 D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\ldvs.Core.AssemblyInfoInputs.cache
 D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\ldvs.Core.AssemblyInfo.cs
 D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\ldvs.Core.csproj.CoreCompileInputs.cache
+D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\ldvs.Core.sourcelink.json
+D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\es-ES\ldvs.Core.resources.cs
 D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\es-ES\ldvs.Core.resources.dll
+D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\fr-FR\ldvs.Core.resources.cs
 D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\fr-FR\ldvs.Core.resources.dll
 D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\ldvs.Core.dll
 D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\refint\ldvs.Core.dll
 D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\ldvs.Core.pdb
 D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\ref\ldvs.Core.dll
-D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\es-ES\ldvs.Core.resources.cs
-D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\fr-FR\ldvs.Core.resources.cs
-D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Debug\net9.0\ldvs.Core.sourcelink.json

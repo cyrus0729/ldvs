@@ -404,7 +404,7 @@ namespace ldvs.Core.Localization
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to offset Ran Out!.
+        ///   Looks up a localized string similar to time Ran Out!.
         /// </summary>
         internal static string TimeRanOut
         {

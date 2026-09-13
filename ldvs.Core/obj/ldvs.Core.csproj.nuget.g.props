@@ -13,4 +13,14 @@
     <SourceRoot Include="C:\Users\cyrus\.nuget\packages\" />
     <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
   </ItemGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Content Include="$(NuGetPackageRoot)monogame.reload\0.3.3\contentFiles\any\net8.0\Icon.ico" Condition="Exists('$(NuGetPackageRoot)monogame.reload\0.3.3\contentFiles\any\net8.0\Icon.ico')">
+      <NuGetPackageId>MonoGame.Reload</NuGetPackageId>
+      <NuGetPackageVersion>0.3.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>Icon.ico</Link>
+    </Content>
+  </ItemGroup>
 </Project>

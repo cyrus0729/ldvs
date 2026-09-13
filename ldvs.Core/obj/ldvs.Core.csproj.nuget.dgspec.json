@@ -55,9 +55,9 @@
               "target": "Package",
               "version": "[3.8.*, )"
             },
-            "MonoSound": {
+            "MonoGame.Reload": {
               "target": "Package",
-              "version": "[1.8.1.1, )"
+              "version": "[0.3.3, )"
             }
           },
           "imports": [

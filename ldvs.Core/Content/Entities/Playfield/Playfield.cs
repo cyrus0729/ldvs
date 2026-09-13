@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using MonoGameLibrary.Graphics;
 using MonoGameLibrary.Scenes;
 using Color = Microsoft.Xna.Framework.Color;
@@ -89,75 +90,27 @@ public static class JudgementMS
     }
 }
 
-public interface IPlayfield
-{
-    // make all these customizable later btw
-    const bool autoplay = false;
-    const int receptorY = 1000;
-    const int spawnY = 0;
-    const int centerX = 1000;
-    const int laneWidth = 170;
-    const int travelTimeMs = 500;
-    public Beatmap _map { get; set; }
-}
-
-public interface ITimingPointProvider
-{
-    IReadOnlyList<TimingPoint> Uninherited { get; }
-    IReadOnlyList<TimingPoint> Inherited { get; }
-}
-
-public sealed class TimingPointProvider(
-    IReadOnlyList<TimingPoint> uninherited,
-    IReadOnlyList<TimingPoint> inherited) : ITimingPointProvider
-{
-    public IReadOnlyList<TimingPoint> Uninherited { get; } = uninherited;
-    public IReadOnlyList<TimingPoint> Inherited { get; } = inherited;
-
-    public static double getBaseBeatLength(List<TimingPoint> timingPoints)
-    {
-        TimingPoint? firstUninherited = timingPoints
-            .Where(point => point.Uninherited)
-            .OrderBy(point => point.offset)
-            .FirstOrDefault();
-
-        return firstUninherited?.MsPerBeat ?? throw new InvalidOperationException("map has no uninherited timing point");
-    }
-
-    public static TimingPoint GetTimingPoint(double time,
-        List<TimingPoint> timingPoints)
-    {
-        return timingPoints
-                .Where(point => point.offset <= time)
-                .OrderBy(point => point.offset)
-                .LastOrDefault() ??
-            timingPoints
-                .Where(point => point.MsPerBeat > 0)
-                .OrderBy(point => point.offset)
-                .First();
-    }
-}
-
 public interface INoteHandler
 {
     List<int> JudgeCount { get; set; }
-    JudgementMS.Judge? mostRecentJudge { get; set; }
-    double? mostRecentDelta { get; set; }
 
     // yayyyy i hope theres a better way to do this shit later
 
-    public Stack<NoteHandler.DisplayJudgeInstance> JudgeInstances { get; set; }
-
+    public Stack<NoteHandler.DisplayJudgeInstance> DisplayJudgeInstances { get; set; }
     public List<double> LastHeld { get; set; }
     public List<bool> LanesBlocked { get; set; }
     public List<bool> LanesHeld { get; set; }
-    public List<List<NoteInstance>> VSLanes { get; set; }
+    public List<List<NoteInstance>> VSLanes { get; }
     public List<int> VSLanesNext { get; set; }
     public List<List<NoteHandler.HoldInstance>> HoldLanes { get; set; }
     IReadOnlyList<NoteInstance> notes { get; }
-    void AddHold(int lane, int note, bool held);
-    bool InputLaneHeld(int lane);
 
+    List<JudgementMS.Judge> Judgements { get; }
+    List<double> JudgementDeltas { get; }
+    void AddHold(int lane, int note, bool held);
+    void ClearBlockedLanes();
+
+    bool InputLaneHeld(int lane);
     bool InputLanePress(int lane);
     bool InputLaneRelease(int lane);
     void ResolveNote(NoteInstance note, JudgementMS.Judge judge, double delta = double.PositiveInfinity);
@@ -183,29 +136,24 @@ public sealed class NoteHandler : INoteHandler
     public IReadOnlyList<NoteInstance> notes { get; set; } = Array.Empty<NoteInstance>();
 
     public List<int> JudgeCount { get; set; } = [0, 0, 0, 0, 0];
-    public JudgementMS.Judge? mostRecentJudge { get; set; }
-    public double? mostRecentDelta { get; set; }
 
     public List<List<bool>> _laneInputStates { get; set; }  = [[false, false, false], [false, false, false], [false, false, false], [false, false, false]];
-
     public List<double> LastHeld { get; set; } = [double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity ];
-
     public List<bool> LanesBlocked { get; set; } = [false, false, false, false, false, false, false];
     public List<bool> LanesHeld { get; set; } = [false, false, false, false, false, false, false];
-    public List<List<NoteInstance>> VSLanes { get; set; } = [[], [], [], [], [], [], []];
+    public List<List<NoteInstance>> VSLanes { get; set; }
     public List<int> VSLanesNext { get; set; } = [0, 0, 0, 0, 0, 0, 0];
     public List<List<HoldInstance>> HoldLanes { get; set; } = [[], [], [], [], [], [], []];
 
-    public Stack<DisplayJudgeInstance> JudgeInstances { get; set; } = new();
+    public List<JudgementMS.Judge> Judgements { get; set; } = [];
+    public List<double> JudgementDeltas { get; set; } = [];
 
-    public NoteHandler(
-        List<Keys> binds)
+    public Stack<DisplayJudgeInstance> DisplayJudgeInstances { get; set; } = new();
+
+    public NoteHandler(List<Keys> binds)
     {
         if (binds.Count != 4)
-            throw new ArgumentException(
-                @"four input bindings are required,,,,,,,,,,,",
-                nameof(binds));
-
+            throw new ArgumentException(@"four input bindings are required idiot,,,,,,,,,,,", nameof(binds));
         _laneInputKeys = binds;
         VSLanes = InitLanes(notes);
     }
@@ -240,10 +188,7 @@ public sealed class NoteHandler : INoteHandler
     public bool InputLaneRelease(int lane) =>
         InputLaneState(lane, 2);
 
-    public void ResolveNote(
-        NoteInstance note,
-        JudgementMS.Judge judge,
-        double delta = double.PositiveInfinity)
+    public void ResolveNote(NoteInstance note, JudgementMS.Judge judge, double delta = double.PositiveInfinity)
     {
         note.ResolvedAs = judge;
         AddJudge(note.Column,judge, delta);
@@ -273,15 +218,13 @@ public sealed class NoteHandler : INoteHandler
         }
     }
 
-    void AddJudge(int lane,JudgementMS.Judge judge, double delta)
+    void AddJudge(int lane, JudgementMS.Judge judge, double delta)
     {
         JudgeCount[(int)judge]++;
-        mostRecentJudge = judge;
+        Judgements.Add(judge);
+        JudgementDeltas.Add(delta);
 
-        JudgeInstances.Push(new DisplayJudgeInstance(judge,lane));
-
-        if (!double.IsPositiveInfinity(delta))
-            mostRecentDelta = delta;
+        DisplayJudgeInstances.Push(new DisplayJudgeInstance(judge, lane));
     }
 
     private List<List<NoteInstance>> InitLanes(
@@ -320,40 +263,33 @@ public sealed class NoteHandler : INoteHandler
 
 public class NoteInstance
 {
-    public Sprite sprite;
-    public Sprite LNsprite;
+    public required Sprite sprite;
+    public required Sprite LNsprite;
+    public required Sprite Msprite;
     public int Column;
     public double HitMs;
     public double? EndMs;
     public JudgementMS.Judge? ResolvedAs { get; set; }
     public bool isHeldVisual;
     public bool holdConsumed;
+    public bool isMine;
 }
 
 public class BumperInstance : NoteInstance
 {
     public int Type;
-    public Sprite spriteL;
-    public Sprite spriteM;
-    public Sprite spriteR;
-    public Sprite LNspriteL;
-    public Sprite LNspriteM;
-    public Sprite LNspriteR;
-    public Sprite TspriteL;
-    public Sprite TspriteM;
-    public Sprite TspriteR;
+    public required Sprite Tsprite;
 }
 
-public class MineInstance : NoteInstance {}
-
-public class Playfield : Scene, IPlayfield
+public class Playfield : Scene
 {
     private Conductor _c;
-    private TimingPointProvider _tp;
 
     private NoteDrawer _nd;
     private NoteUpdater _nu;
     private NoteHandler _nh;
+    ModManager _mm;
+    GlobalSettings _s;
 
     //public SoundEffect hitsound = ldvsGame.Content.Load<SoundEffect>("SFX/normal-hitnormal"); // test hitsound
     Texture2D _noteLaneTexL; // stupid replace later plssss
@@ -372,22 +308,23 @@ public class Playfield : Scene, IPlayfield
 
     public Playfield(BeatmapSet set, Beatmap map)
     {
+
         _set = set;
         _map = map;
 
-        _tp = new TimingPointProvider(_map.UninheritedTimingPoints, _map.InheritedTimingPoints);
         _c = new Conductor();
         _nh = new NoteHandler([Keys.X,Keys.C,Keys.M,Keys.OemComma]);
+        _mm = new ModManager();
+        _s = new GlobalSettings(); // have init values here or something
 
-        _nu = new NoteUpdater(_c,_tp,_nh);
-        _nd = new NoteDrawer(_tp, _c,_nh);
+        _nu = new NoteUpdater(_c,_nh,_mm,_s);
+        _nd = new NoteDrawer(_c,_nh, _mm, _s);
     }
 
     public Beatmap _map { get; set; }
 
     public override void Draw(GameTime gameTime)
     {
-
         ldvsGame.GraphicsDevice.Clear(Color.Black);
         ldvsGame.SpriteBatch.Begin();
         fpsTester.DrawFps(ldvsGame.SpriteBatch, font, new Vector2(10f, 10f), Color.MonoGameOrange);
@@ -396,7 +333,7 @@ public class Playfield : Scene, IPlayfield
         NoteLane2.Draw(new Vector2(_nd.LaneX(1), 0f));
         NoteLane3.Draw(new Vector2(_nd.LaneX(2), 0f));
         NoteLane4.Draw(new Vector2(_nd.LaneX(3), 0f));
-        NoteLaneJ.Draw(new Vector2(_nd.LaneX(0) - 100f, IPlayfield.receptorY)); // pain
+        NoteLaneJ.Draw(new Vector2(_nd.LaneX(0) - 100f, _s.ReceptorY)); // pain
         _nd.Draw(font);
         ldvsGame.SpriteBatch.End();
         base.Draw(gameTime);
@@ -431,93 +368,100 @@ public class Playfield : Scene, IPlayfield
         {
             _c.Stop();
             ldvsGame.ChangeScene(new SongSelectScreen());
-
             return;
         }
         fpsTester.Update(gameTime);
         _c.Update();
         _nh.UpdateLaneStates();
-
-        _nu.Update(IPlayfield.autoplay);
+        _mm.Update(_c.SongPositionMs);
+        _nu.Update(_s.Autoplay);
         base.Update(gameTime);
     }
 
     private void BuildNotes(Beatmap beatmap)
-{
-    var notes = new List<NoteInstance>();
-
-    var noteS = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_NoteNew_6"), scale: 10f);
-    var noteSLN = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_NoteNew_7"), scale: 10f);
-    var mine = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_chip_mine_normal_0"), scale: 8f);
-    var bumperL = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_0"), scale: 8f,layerDepth:1);
-    var bumperM = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_1"), scale: 8,layerDepth:1);
-    var bumperR = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_2"), scale: 8f, layerDepth: 1);
-    var bumperLLN = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_ln0"), scale: 8f, layerDepth: 1);
-    var bumperMLN = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_ln1"), scale: 8f, layerDepth: 1);
-    var bumperRLN = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_ln2"), scale: 8f, layerDepth: 1);
-    var bumperLT = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_time0"), scale: 8f, layerDepth: 1);
-    var bumperMT = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_time1"), scale: 8f, layerDepth: 1);
-    var bumperRT = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_time2"), scale: 8f, layerDepth: 1);
-
-    foreach (var hitObject in beatmap.HitObjects)
     {
-        NoteInstance startNote;
+        var notes = new List<NoteInstance>();
 
-        if (hitObject.Type == 2)
+        // i think make skinning later ngl
+        var noteS = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_NoteNew_6"), scale: 10f);
+        var noteSLN = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_NoteNew_7"), scale: 10f);
+        var mine = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_chip_mine"), scale: 8f);
+        var bumperMine = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_mine"), scale: 8f);
+        var bumperL = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_0"), scale: 8f,layerDepth:1);
+        var bumperM = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_1"), scale: 8,layerDepth:1);
+        var bumperR = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_2"), scale: 8f, layerDepth: 1);
+        var bumperLLN = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_ln0"), scale: 8f, layerDepth: 1);
+        var bumperMLN = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_ln1"), scale: 8f, layerDepth: 1);
+        var bumperRLN = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_ln2"), scale: 8f, layerDepth: 1);
+        var bumperLT = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_time0"), scale: 8f, layerDepth: 1);
+        var bumperMT = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_time1"), scale: 8f, layerDepth: 1);
+        var bumperRT = new Sprite(Content.Load<Texture2D>("Sprites/Playfield/Notes/sp_note_bumper_time2"), scale: 8f, layerDepth: 1);
+
+        foreach (var mod in beatmap.Mods)
         {
-            startNote = new MineInstance
+            _mm.Add(mod);
+        }
+
+        foreach (var hitObject in beatmap.HitObjects)
+        {
+            NoteInstance note;
+
+            if (hitObject.Lane is > 3 and < 7)
             {
-                sprite = mine,
-                LNsprite = mine,
-                Column = hitObject.Lane,
-                HitMs = hitObject.Time,
-                ResolvedAs = null
-            };
-        }
-        else if (hitObject.Lane > 3)
-        {
-            startNote = new BumperInstance
+                Sprite sprite;
+                Sprite lnsprite;
+                Sprite tsprite;
+                switch (hitObject.Lane)
+                {
+                    case 4:
+                        sprite = bumperL;
+                        lnsprite = bumperLLN;
+                        tsprite = bumperLT;
+                        break;
+                    case 5:
+                        sprite = bumperM;
+                        lnsprite = bumperMLN;
+                        tsprite = bumperMT;
+                        break;
+                    case 6:
+                        sprite = bumperR;
+                        lnsprite = bumperRLN;
+                        tsprite = bumperRT;
+                        break;
+                    default: return;
+                }
+                note = new BumperInstance
+                {
+                    sprite = sprite,
+                    LNsprite = lnsprite,
+                    Tsprite = tsprite,
+                    Msprite = bumperMine,
+                    Type = hitObject.Type,
+                    Column = hitObject.Lane,
+                    HitMs = hitObject.Time,
+                    ResolvedAs = null
+                };
+            }
+            else
             {
-                spriteL = bumperL,
-                spriteM = bumperM,
-                spriteR = bumperR,
+                note = new NoteInstance
+                {
+                    sprite = noteS,
+                    LNsprite = noteSLN,
+                    Msprite = mine,
+                    Column = hitObject.Lane,
+                    HitMs = hitObject.Time,
+                    ResolvedAs = null
+                };
+            }
 
-                LNspriteL = bumperLLN,
-                LNspriteM = bumperMLN,
-                LNspriteR = bumperRLN,
+            note.isMine = hitObject.Type == 2;
+            note.EndMs = hitObject.EndTime;
 
-                TspriteL = bumperLT,
-                TspriteM = bumperMT,
-                TspriteR = bumperRT,
-
-                Type = hitObject.Type,
-                Column = hitObject.Lane,
-                HitMs = hitObject.Time,
-                ResolvedAs = null
-            };
-        }
-        else
-        {
-            startNote = new NoteInstance
-            {
-                sprite = noteS,
-                LNsprite = noteSLN,
-                Column = hitObject.Lane,
-                HitMs = hitObject.Time,
-                ResolvedAs = null
-            };
+            notes.Add(note);
         }
 
-        if (hitObject.EndTime != null)
-        {
-            startNote.EndMs = hitObject.EndTime;
-        }
-
-        notes.Add(startNote);
+        notes.Sort((a, b) => a.HitMs.CompareTo(b.HitMs));
+        _nh.SetNotes(notes);
     }
-
-    notes.Sort((a, b) => a.HitMs.CompareTo(b.HitMs));
-
-    _nh.SetNotes(notes);
-}
 }

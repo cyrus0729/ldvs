@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType Condition="'$(Configuration)' == 'Debug'">Exe</OutputType>
-        <OutputType Condition="'$(Configuration)' != 'Release'">WinExe</OutputType>
+        <OutputType Condition="'$(Configuration)' == 'Release'">Exe</OutputType>
         <TargetFramework>net9.0</TargetFramework>
         <PublishReadyToRun>false</PublishReadyToRun>
         <TieredCompilation>false</TieredCompilation>
@@ -31,6 +31,6 @@
     <ItemGroup>
         <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.*"/>
         <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*"/>
-        <PackageReference Include="MonoSound" Version="1.8.1.1" />
+        <PackageReference Include="MonoGame.Reload" Version="0.3.3" />
     </ItemGroup>
 </Project>

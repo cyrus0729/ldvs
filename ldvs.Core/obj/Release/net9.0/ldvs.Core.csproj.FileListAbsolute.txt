@@ -20,3 +20,4 @@ D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Release\net9.0\ldvs.Core.dl
 D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Release\net9.0\refint\ldvs.Core.dll
 D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Release\net9.0\ldvs.Core.pdb
 D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Release\net9.0\ref\ldvs.Core.dll
+D:\Users\cyrus\Desktop\code stuff\ldvs\ldvs.Core\obj\Release\net9.0\ldvs.Core.sourcelink.json

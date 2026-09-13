@@ -1,160 +1,311 @@
-﻿using System.Diagnostics;
-using MonoSound;
-using MonoSound.Streaming;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework.Media;
 using System;
+using System.Diagnostics;
 using System.IO;
+using Microsoft.Xna.Framework;
 
 namespace ldvs.Core.Content.Entities;
 
-public static class AudioTypeDetector
+public interface IConductor
 {
-    public static AudioType Detect(Stream stream)
+    double VS_OffsetMs { get; }
+    double SongPositionMs { get; }
+    double BaseBPM { get; }
+    double CurrentBPM { get; }
+    double CurrentBeat { get; }
+}
+
+// bpm changes!!
+public sealed record TempoChange(double beat, double bpm);
+
+public sealed class TempoMap : IEnumerable<TempoChange>
+{
+    public readonly List<TempoChange> _changes = [];
+
+    public TempoMap(double initialBpm)
     {
-        if (stream == null)
-            throw new ArgumentNullException(nameof(stream));
+        Add(0, initialBpm);
+    }
 
-        if (!stream.CanRead)
-            throw new ArgumentException("strean not readable 3:", nameof(stream));
+    public void Add(double beat, double bpm)
+    {
+        if (bpm <= 0)
+            throw new ArgumentOutOfRangeException(nameof(bpm));
 
-        if (!stream.CanSeek)
-            throw new NotSupportedException(
-                "stream no seek");
+        _changes.Add(new TempoChange(beat, bpm));
+        _changes.Sort(static (a, b) => a.beat.CompareTo(b.beat));
+    }
 
-        long originalPosition = stream.Position;
+    public double BEATtoMS(double targetBeat)
+    {
+        double timeMs = 0;
 
-        try
+        for (int i = 0; i < _changes.Count; i++)
         {
-            Span<byte> header = stackalloc byte[12];
-            stream.Position = 0;
-            int count = stream.ReadAtLeast(header,12);
+            TempoChange current = _changes[i];
 
-            // XNB files begin with "XNB"
-            if (count >= 3 &&
-                header[0] == (byte)'X' &&
-                header[1] == (byte)'N' &&
-                header[2] == (byte)'B')
-            {
-                return AudioType.XNB;
-            }
+            double nextBeat =
+                i + 1 < _changes.Count
+                    ? _changes[i + 1].beat
+                    : double.PositiveInfinity;
 
-            // XACT wave banks mostly begin with "WBND"
-            if (count >= 4 &&
-                header[0] == (byte)'W' &&
-                header[1] == (byte)'B' &&
-                header[2] == (byte)'N' &&
-                header[3] == (byte)'D')
-            {
-                return AudioType.XWB;
-            }
+            double segmentEndBeat =
+                Math.Min(targetBeat, nextBeat);
 
-            // WAV: RIFF....WAVE
-            if (count >= 12 &&
-                header[0] == (byte)'R' &&
-                header[1] == (byte)'I' &&
-                header[2] == (byte)'F' &&
-                header[3] == (byte)'F' &&
-                header[8] == (byte)'W' &&
-                header[9] == (byte)'A' &&
-                header[10] == (byte)'V' &&
-                header[11] == (byte)'E')
-            {
-                return AudioType.WAV;
-            }
+            if (segmentEndBeat <= current.beat)
+                break;
 
-            // OGG Vorbis
-            if (count >= 4 &&
-                header[0] == (byte)'O' &&
-                header[1] == (byte)'g' &&
-                header[2] == (byte)'g' &&
-                header[3] == (byte)'S')
-            {
-                return AudioType.OGG;
-            }
+            double beatsInSegment =
+                segmentEndBeat - current.beat;
 
-            // MP3 with ID3 metadata
-            if (count >= 3 &&
-                header[0] == (byte)'I' &&
-                header[1] == (byte)'D' &&
-                header[2] == (byte)'3')
-            {
-                return AudioType.MP3;
-            }
+            timeMs += beatsInSegment * 60_000.0 / current.bpm;
 
-            // why does mp3 have to be like this
-            if (count >= 2 &&
-                header[0] == 0xFF &&
-                (header[1] & 0xE0) == 0xE0)
-            {
-                return AudioType.MP3;
-            }
-
-            return AudioType.Custom;
+            if (targetBeat < nextBeat)
+                break;
         }
-        finally
+
+        return timeMs;
+    }
+
+    public double BPMatBEAT(double beat)
+    {
+        TempoChange current = _changes[0];
+
+        foreach (var change in _changes)
         {
-            stream.Position = originalPosition;
+            if (change.beat > beat)
+                break;
+
+            current = change;
         }
+
+        return current.bpm;
+    }
+
+    public double BPMatMS(double songTimeMs)
+    {
+        double accumulatedMs = 0;
+
+        for (int i = 0; i < _changes.Count; i++)
+        {
+            TempoChange current = _changes[i];
+
+            double nextBeat =
+                i + 1 < _changes.Count
+                    ? _changes[i + 1].beat
+                    : double.PositiveInfinity;
+
+            double segmentMs =
+                double.IsPositiveInfinity(nextBeat)
+                    ? double.PositiveInfinity
+                    : (nextBeat - current.beat)
+                        * 60_000.0
+                        / current.bpm;
+
+            if (songTimeMs < accumulatedMs + segmentMs)
+                return current.bpm;
+
+            accumulatedMs += segmentMs;
+        }
+
+        return _changes[^1].bpm;
+    }
+
+    public IEnumerator<TempoChange> GetEnumerator()
+    {
+        return _changes.GetEnumerator();
+    }
+
+    public double MStoBEAT(double songTimeMs)
+    {
+        double accumulatedMs = 0;
+
+        for (int i = 0; i < _changes.Count; i++)
+        {
+            TempoChange current = _changes[i];
+
+            double nextBeat =
+                i + 1 < _changes.Count
+                    ? _changes[i + 1].beat
+                    : double.PositiveInfinity;
+
+            double nextSegmentMs =
+                double.IsPositiveInfinity(nextBeat)
+                    ? double.PositiveInfinity
+                    : (nextBeat - current.beat)
+                        * 60_000.0
+                        / current.bpm;
+
+            if (songTimeMs <= accumulatedMs + nextSegmentMs)
+            {
+                double localMs = songTimeMs - accumulatedMs;
+
+                return current.beat +
+                    localMs * current.bpm / 60_000.0;
+            }
+
+            accumulatedMs += nextSegmentMs;
+        }
+
+        return 0;
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }
 
-
-public class Conductor : IConductor
+// one conductor for all simultaneous playfields
+public sealed class Conductor : IConductor
 {
-    private readonly Stopwatch _songSw = new();
-    private TimeSpan _songBasePos = TimeSpan.Zero;
+    private long _startTimestamp;
+    private long _pauseTimestamp;
 
-    public double SongOffset { get; set; }
+    private double _clockStartMs = -2000.0;
+    private bool _audioStarted;
+    private bool _paused; // todo make global
+    private Song? _currentBGM;
+    private TempoMap _tempoMap = new(120);
 
-    private StreamPackage _currentBGM;
+    public double SongOffset { get; private set; }
 
-    public double SongPositionMs { get; set; }
+    public double SongPositionMs { get; private set; }
+    public double CurrentBPM { get; private set; } = 120;
+    public double BaseBPM { get; private set; } = 120;
+    public double CurrentBeat { get; private set; }
+    public double VS_OffsetMs { get; private set; }
 
-    public double VS_OffsetMs { get; set; }
+    public void Pause()
+    {
+        if (_paused)
+            return;
+
+        _pauseTimestamp = Stopwatch.GetTimestamp();
+        _paused = true;
+
+        if (_audioStarted)
+            MediaPlayer.Pause();
+    }
+
+    public void Resume()
+    {
+        if (!_paused)
+            return;
+
+        long now = Stopwatch.GetTimestamp();
+        long pausedDuration = now - _pauseTimestamp;
+        _startTimestamp += pausedDuration;
+        _paused = false;
+
+        if (_audioStarted)
+            MediaPlayer.Resume();
+    }
 
     public void Start(BeatmapSet set, Beatmap map)
     {
-        var filePath = Path.Combine(set.FolderPath, map.General.AudioFilename);
+        Stop();
         SongOffset = map.General.AudioLeadIn;
 
-        SongPositionMs = 0;
+        _tempoMap = new TempoMap(120);
+        foreach (TempoChange point in map.BPMList)
+            _tempoMap.Add(point.beat, point.bpm);
 
-        byte[] audioBytes = File.ReadAllBytes(filePath);
-        Stream audioStream = new MemoryStream(audioBytes);
-        AudioType type = AudioTypeDetector.Detect(audioStream);
-        if (type == AudioType.Custom)
-        {
-            throw new ArgumentOutOfRangeException($"{filePath} isnt a valid audio format right now!!! >:(");
-        }
-        _currentBGM = StreamLoader.GetStreamedSound(audioStream, type, looping: false);
-        _songBasePos = TimeSpan.Zero;
+        string audioPath = Path.Combine(set.FolderPath, map.General.AudioFilename);
+        _currentBGM = Song.FromUri("mapsong", new Uri(StupidFuckingOgg(audioPath)));
 
-        _songSw.Restart();
-        _currentBGM.Play();
+        _clockStartMs = -2000.0; // yes its a cheap trick but who gives a damn
+
+        _startTimestamp = Stopwatch.GetTimestamp();
+        _audioStarted = false;
+        _paused = false;
+
+        SongPositionMs = -2000.0;
+        CurrentBeat = 0;
+        BaseBPM = CurrentBPM = _tempoMap._changes[0].bpm;
+        VS_OffsetMs = SongOffset - SongPositionMs;
     }
 
     public void Stop()
     {
-        _currentBGM.Stop();
+        MediaPlayer.Stop();
+
+        _currentBGM?.Dispose();
         _currentBGM = null;
-        _songSw.Stop();
-        _songBasePos = TimeSpan.Zero;
+
+        _audioStarted = false;
+        _paused = false;
+
+        _clockStartMs = -2000.0;
+        _startTimestamp = 0;
+
+        SongPositionMs = -2000.0;
+        CurrentBeat = 0;
+        CurrentBPM = _tempoMap.BPMatMS(0);
+        VS_OffsetMs = SongOffset - SongPositionMs;
+    }
+
+    public static string StupidFuckingOgg(string inputPath) // im ngl this sucks ass
+    {
+        if (File.Exists(Path.ChangeExtension(inputPath, ".ogg")))
+            return Path.ChangeExtension(inputPath, ".ogg");
+        if (!File.Exists(inputPath))
+            throw new FileNotFoundException("Audio file not found.", inputPath);
+
+        if (string.Equals(Path.GetExtension(inputPath), ".ogg", StringComparison.OrdinalIgnoreCase))
+            return inputPath;
+
+        string outputPath = Path.Combine(
+            Path.GetDirectoryName(inputPath)!,
+            Path.GetFileNameWithoutExtension(inputPath) + ".ogg");
+
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = "ffmpeg",
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            Arguments =
+                $"-y -i \"{inputPath}\" -vn -c:a libvorbis -q:a 5 \"{outputPath}\""
+        };
+
+        using var process = Process.Start(startInfo) ?? throw new InvalidOperationException("Could not start FFmpeg.");
+
+        string errors = process.StandardError.ReadToEnd();
+        process.WaitForExit();
+
+        if (process.ExitCode != 0 || !File.Exists(outputPath))
+            throw new InvalidOperationException($"FFmpeg conversion failed:\n{errors}");
+
+        return outputPath;
     }
 
     public void Update()
     {
-        if (_songSw.IsRunning)
+        if (_paused)
+            return;
+
+        long now = Stopwatch.GetTimestamp();
+        double elapsedMs = TimestampToMilliseconds(now - _startTimestamp);
+
+        SongPositionMs = _clockStartMs + elapsedMs;
+        if (!_audioStarted && SongPositionMs >= 0.0)
         {
-            // i hate this i hate this i hate this
-            var pos = _songBasePos + TimeSpan.FromSeconds(_songSw.Elapsed.TotalSeconds);
-
-            SongPositionMs = pos.TotalMilliseconds;
-            VS_OffsetMs = -SongPositionMs;
+            _audioStarted = true;
+            MediaPlayer.Play(_currentBGM);
         }
-    }
-}
 
-public interface IConductor
-{
-    double VS_OffsetMs { get; set; }
-    double SongPositionMs { get; set; }
+        double musicMs = Math.Max(0.0, SongPositionMs);
+        CurrentBeat = _tempoMap.MStoBEAT(musicMs);
+        CurrentBPM = _tempoMap.BPMatMS(musicMs);
+        VS_OffsetMs = SongOffset - SongPositionMs;
+    }
+
+    private static double TimestampToMilliseconds(long timestamp)
+    {
+        return timestamp * 1000.0 / Stopwatch.Frequency;
+    }
 }

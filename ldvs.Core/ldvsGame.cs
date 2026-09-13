@@ -9,7 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Audio;
 using MonoGameLibrary.Input;
 using MonoGameLibrary.Scenes;
-using MonoSound;
+
+// ReSharper disable all ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
 namespace ldvs.Core
 {
@@ -26,10 +28,7 @@ namespace ldvs.Core
         /// </summary>
         public static ldvsGame Instance => s_instance;
 
-        // The scene that is currently active.
         private static Scene s_activeScene;
-
-        // The next scene to switch to, if there is one.
         private static Scene s_nextScene;
 
         /// <summary>
@@ -69,37 +68,24 @@ namespace ldvs.Core
         /// </summary>
         public ldvsGame(string title, int width, int height, bool fullScreen)
         {
-            // Ensure that multiple cores are not created.c
             if (s_instance != null)
             {
                 throw new InvalidOperationException($"Only a single Core instance can be created");
             }
 
-            // Store reference to engine for global member access.
             s_instance = this;
 
-            // Create a new graphics device manager.
             Graphics = new GraphicsDeviceManager(this);
-
-            // Set the graphics defaults.
             Graphics.PreferredBackBufferWidth = width;
             Graphics.PreferredBackBufferHeight = height;
             Graphics.IsFullScreen = fullScreen;
-
-            // Apply the graphic presentation changes.
             Graphics.ApplyChanges();
 
-            // Set the window title.
             Window.Title = title;
 
-            // Set the core's content manager to a reference of the base Game's
-            // content manager.
             Content = base.Content;
-
-            // Set the root directory for content.
             Content.RootDirectory = "Content";
 
-            // Mouse is visible by default.
             IsMouseVisible = true;
         }
 
@@ -134,17 +120,11 @@ namespace ldvs.Core
         {
             base.Initialize();
 
-            // Set the core's graphics device to a reference of the base Game's
-            // graphics device.
             GraphicsDevice = base.GraphicsDevice;
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             Audio = new AudioController();
             Input = new InputHandler();
-            MonoSoundLibrary.Init(this);
 
-            IsFixedTimeStep = false;
-
-            // Load supported languages and set the default language.
             List<CultureInfo> cultures = LocalizationManager.GetSupportedCultures();
             var languages = new List<CultureInfo>();
 
@@ -153,8 +133,11 @@ namespace ldvs.Core
                 languages.Add(cultures[i]);
             }
 
-            // TODO You should load this from a settings file or similar,
-            // based on what the user or operating system selected.
+            Window.AllowUserResizing = true;
+            IsFixedTimeStep = false;
+            Window.ClientSizeChanged += Window_ClientSizeChanged;
+
+            // TODO load this from a settings file or similar
             var selectedLanguage = LocalizationManager.DEFAULT_CULTURE_CODE;
             LocalizationManager.SetCulture(selectedLanguage);
 
@@ -185,14 +168,11 @@ namespace ldvs.Core
 
             Input.Update(gameTime);
             Audio.Update();
-
             if (s_nextScene != null)
             {
-                Console.WriteLine(@"Changing scene to " + s_nextScene);
+                Logger.Log(@"Changing scene to " + s_nextScene);
                 TransitionScene();
             }
-
-            // If there is an active scene, update it.
             if (s_activeScene != null)
             {
                 s_activeScene.Update(gameTime);
@@ -202,25 +182,23 @@ namespace ldvs.Core
 
         private static void TransitionScene()
         {
-            // If there is an active scene, dispose of it.
             if (s_activeScene != null)
             {
                 s_activeScene.Dispose();
             }
-
-            // Force the garbage collector to collect to ensure memory is cleared.
             GC.Collect();
-
             s_activeScene = s_nextScene;
-
+        #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             s_nextScene = null;
-
-            // If the active scene now is not null, initialize it.
-            // the Initialize call also calls Scene.LoadContent
+        #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
             if (s_activeScene != null)
             {
                 s_activeScene.Initialize();
             }
+        }
+
+        void Window_ClientSizeChanged(object? sender, EventArgs e)
+        {
         }
     }
 }

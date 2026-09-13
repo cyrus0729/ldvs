@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,109 +8,187 @@ using MonoGameLibrary.Scenes;
 
 namespace ldvs.Core.Content.Entities;
 
+public class MenuOption
+{
+    public string Name { get; }
+    public Scene sceneTo { get; }
+    public Sprite sprite { get; }
+    public Vector2 position { get; }
+    public Vector2 BaseScale { get; }
+
+    public MenuOption(string name,
+        Scene scene,
+        Sprite sprite,
+        Vector2 position)
+    {
+        Name = name;
+        sceneTo = scene;
+        this.sprite = sprite;
+        this.position = position;
+        BaseScale = sprite.Scale;
+    }
+
+    public void Draw(Vector2 pos)
+    {
+        sprite.Draw(pos);
+    }
+}
+
+
 public class TitleScreen : Scene
 {
-    public float FloatFactor;
-    public List<MenuOption> Options;
-    public IEnumerable IEOptions { get; }
-    LinkedList<MenuOption> titlemenuoptions;
-    LinkedListNode<MenuOption> titlemenuoption;
+    private readonly List<MenuOption> _menuOptions = new();
+    private readonly Dictionary<MenuOption, Vector2> _currentScales = new();
 
-    // In TitleScreen:
-    private Dictionary<MenuOption, Vector2> currentScale = new();
-    private float targetMultiplier = 1.25f;
-    private float unselectedMultiplier = 1.0f;
-    private float speed = 10f; // higher = faster
+    private SpriteFont _font = null!;
 
-    Sprite start;
-    Sprite edit;
-    Sprite option;
+    private int _selectedIndex;
+    private float _floatFactor;
 
-    public enum TitleScreenState
-    {
-        Start,
-        Loop,
-        End,
-    }
+    private const float SelectedScaleMultiplier = 1.25f;
+    private const float UnselectedScaleMultiplier = 1.0f;
+    private const float ScaleSpeed = 10f;
 
     public override void Draw(GameTime gameTime)
     {
-        var f = Content.Load<SpriteFont>("Fonts/Hud");
+        ldvsGame.GraphicsDevice.Clear(Color.DarkSlateBlue);
 
-        ldvsGame.GraphicsDevice.Clear(Color.LightPink);
         ldvsGame.SpriteBatch.Begin();
 
-        ldvsGame.SpriteBatch.DrawString(f, "this is the title screen", Vector2.Zero, Color.Black);
-
-        for (var node = titlemenuoptions.First; node != null; node = node.Next)
-        {
-            var opt = node.Value;
-
-            Vector2 prev = opt.sprite.Scale;
-            opt.sprite.Scale = currentScale[opt];
-
-            opt.Draw(ldvsGame.SpriteBatch, new Vector2(opt.position.X, opt.position.Y + FloatFactor));
-
-            opt.sprite.Scale = prev;
-        }
+        DrawMenuOptions();
 
         ldvsGame.SpriteBatch.End();
+
         base.Draw(gameTime);
     }
 
     public override void Initialize()
     {
-        FloatFactor = 0f;
+        _font = Content.Load<SpriteFont>("Fonts/Hud");
 
-        var s = Content.Load<Texture2D>("Sprites/Menu/thing");
-        start = new Sprite(s, Color.White, 5f, Vector2.One/2);
-        edit = new Sprite(s, Color.White, 4f, Vector2.One / 2);
-        option = new Sprite(s, Color.White, 3f, Vector2.One / 2);
+        Texture2D menuTexture =
+            Content.Load<Texture2D>("Sprites/Menu/thing");
 
-        titlemenuoptions = new LinkedList<MenuOption>([
-            new MenuOption(new SongSelectScreen(), start, new Vector2(300f, 400f)),
-            new MenuOption(new TitleScreen(), edit, new Vector2(600f, 700f)),
-            new MenuOption(new TitleScreen(), option, new Vector2(300f, 900f))
+        Sprite startSprite = new Sprite(menuTexture, Color.White, 5f, Vector2.One / 2f);
+
+        Sprite editSprite = new Sprite(menuTexture, Color.White, 4f, Vector2.One / 2f);
+
+        Sprite optionsSprite = new Sprite(menuTexture, Color.White, 4f, Vector2.One / 2f);
+
+        _menuOptions.AddRange(
+        [
+            new MenuOption("PLAY", new SongSelectScreen(), startSprite, new Vector2(300f, 400f)),
+            new MenuOption("EDIT", new TitleScreen(), editSprite, new Vector2(500f, 700f)),
+            new MenuOption("CFGS", new TitleScreen(), optionsSprite, new Vector2(300f, 1000f))
         ]);
 
-        foreach (var opt in titlemenuoptions)
+        foreach (MenuOption option in _menuOptions)
         {
-            currentScale[opt] = opt.BaseScale;
+            _currentScales[option] = option.BaseScale;
         }
 
-
-        titlemenuoption = titlemenuoptions.First;
+        _selectedIndex = 0;
         base.Initialize();
     }
 
     public override void Update(GameTime gameTime)
     {
+        HandleInput();
+        UpdateMenuScales(gameTime);
+
+        _floatFactor =
+            (float)Math.Sin(
+                gameTime.TotalGameTime.TotalMilliseconds / 160f) * 4f;
+
+        base.Update(gameTime);
+    }
+
+    private void DrawMenuOptions()
+    {
+        foreach (MenuOption option in _menuOptions)
+        {
+            Vector2 oldScale = option.sprite.Scale;
+
+            option.sprite.Scale = _currentScales[option];
+
+            Vector2 spritePosition = new Vector2(
+                option.position.X,
+                option.position.Y + _floatFactor);
+
+            option.Draw(spritePosition);
+
+            DrawOptionText(
+                option,
+                spritePosition);
+
+            option.sprite.Scale = oldScale;
+        }
+    }
+
+    private void DrawOptionText(MenuOption option, Vector2 spritePosition)
+    {
+        Vector2 textSize = _font.MeasureString(option.Name);
+
+        Vector2 textPosition = spritePosition - textSize * 2f;
+
+        bool isSelected = _menuOptions[_selectedIndex] == option;
+
+        Color textColor =
+            isSelected
+                ? Color.Black
+                : Color.DarkSlateGray;
+
+        ldvsGame.SpriteBatch.DrawString(
+            _font,
+            option.Name,
+            textPosition,
+            textColor,0f,Vector2.Zero,5f,SpriteEffects.None,0f);
+    }
+
+    private void HandleInput()
+    {
+        if (ldvsGame.Input.Keyboard.WasKeyJustPressed(Keys.Up))
+        {
+            _selectedIndex = Math.Max(_selectedIndex - 1, 0);
+        }
+
+        if (ldvsGame.Input.Keyboard.WasKeyJustPressed(Keys.Down))
+        {
+            _selectedIndex = Math.Min(_selectedIndex + 1, _menuOptions.Count - 1);
+        }
+
         if (ldvsGame.Input.Keyboard.WasKeyJustPressed(Keys.Enter))
         {
-            ldvsGame.ChangeScene(titlemenuoption.Value.sceneTo);
-        }
+            MenuOption selectedOption = _menuOptions[_selectedIndex];
 
-        if (ldvsGame.Input.Keyboard.WasKeyJustPressed(Keys.Left))
+            ldvsGame.ChangeScene(selectedOption.sceneTo);
+        }
+    }
+
+    private void UpdateMenuScales(GameTime gameTime)
+    {
+        float deltaTime =
+            (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        float interpolation =
+            1f - (float)Math.Exp(-ScaleSpeed * deltaTime);
+
+        for (int i = 0; i < _menuOptions.Count; i++)
         {
-                titlemenuoption = titlemenuoption is { Previous: not null } ? titlemenuoption.Previous : titlemenuoptions.Last;
+            MenuOption option = _menuOptions[i];
+
+            float scaleMultiplier =
+                i == _selectedIndex
+                    ? SelectedScaleMultiplier
+                    : UnselectedScaleMultiplier;
+
+            Vector2 targetScale =
+                option.BaseScale * scaleMultiplier;
+
+            _currentScales[option] = Vector2.Lerp(
+                _currentScales[option],
+                targetScale,
+                interpolation);
         }
-
-        if (ldvsGame.Input.Keyboard.WasKeyJustPressed(Keys.Right))
-        {
-                titlemenuoption = titlemenuoption is { Next: not null } ? titlemenuoption.Next : titlemenuoptions.First;
-        }
-
-        float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-        for (var node = titlemenuoptions.First; node != null; node = node.Next)
-        {
-            var opt = node.Value;
-
-            Vector2 target = opt.BaseScale * (ReferenceEquals(node, titlemenuoption) ? targetMultiplier : unselectedMultiplier);
-            currentScale[opt] = Vector2.Lerp(currentScale[opt], target, 1f - (float)Math.Exp(-speed * dt));
-        }
-
-        FloatFactor = (float)Math.Sin(gameTime.TotalGameTime.TotalMilliseconds/1600)*4;
-        base.Update(gameTime);
     }
 }

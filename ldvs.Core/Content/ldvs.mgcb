@@ -49,6 +49,19 @@
 /processorParam:Version=3.8.5.1
 /build:Sprites/Menu/SongSelect/diffThing.png
 
+#begin Sprites/Menu/SongSelect/songThing.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:Sprites/Menu/SongSelect/songThing.png
+
 #begin Sprites/Menu/thing.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -231,6 +244,19 @@
 /processorParam:Version=3.8.5.1
 /build:Sprites/Playfield/Notes/sp_note_bumper_ln2.png
 
+#begin Sprites/Playfield/Notes/sp_note_bumper_mine.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/processorParam:Version=3.8.5.1
+/build:Sprites/Playfield/Notes/sp_note_bumper_mine.png
+
 #begin Sprites/Playfield/Notes/sp_note_bumper_R.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -294,7 +320,7 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /processorParam:Version=3.8.5.1
-/build:Sprites/Playfield/Notes/sp_note_chip_mine_normal_0.png
+/build:Sprites/Playfield/Notes/sp_note_chip_mine_normal_0.png;Sprites/Playfield/Notes/sp_note_chip_mine.png
 
 #begin Sprites/Playfield/Notes/sp_noteNew_6.png
 /importer:TextureImporter
