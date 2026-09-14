@@ -164,7 +164,7 @@ public sealed class Conductor : IConductor
     private long _startTimestamp;
     private long _pauseTimestamp;
 
-    private double _clockStartMs = -2000.0;
+    private double _clockStartMs = -1000.0;
     private bool _audioStarted;
     private bool _paused; // todo make global
     private Song? _currentBGM;

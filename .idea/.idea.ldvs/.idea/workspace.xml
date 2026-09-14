@@ -9,118 +9,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="163ba3f4-fedf-4b6c-b4be-e819537c36ac" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ldvs.Core/Content/Entities/Mods.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ldvs.Core/Content/Entities/SongParsing/.osu.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ldvs.Core/Content/Entities/SongParsing/.vs.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ldvs.Core/Content/Entities/SongParsing/.vsb.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ldvs.Core/Content/Entities/dumbXNAColorLookupThiny.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ldvs.Core/Content/Entities/easing.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ldvs.Core/Content/Entities/Settings.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ldvs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ldvs/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/Content/Entities/Conductor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/Content/Entities/Conductor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/Content/Entities/MenuOption.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/Content/Entities/Playfield/Playfield.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/Content/Entities/Playfield/Playfield.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/Content/Entities/Scene.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/Content/Entities/Scene.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/Content/Entities/SongParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/Content/Entities/SongParsing/SongParser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/Content/Entities/TitleScreen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/Content/Entities/TitleScreen.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/Content/ldvs.mgcb" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/Content/ldvs.mgcb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/Content/obj/DesktopGL/net9.0/ldvs/.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/Content/obj/DesktopGL/net9.0/ldvs/.mgcontent" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/Content/obj/DesktopGL/net9.0/ldvs/.mgstats" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/Content/obj/DesktopGL/net9.0/ldvs/.mgstats" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/Localization/Resources.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/Localization/Resources.Designer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ldvs.Core/Content/Entities/Logging.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/Content/Entities/Logging.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/bin/Debug/net9.0/es-ES/ldvs.Core.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/bin/Debug/net9.0/es-ES/ldvs.Core.resources.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/bin/Debug/net9.0/fr-FR/ldvs.Core.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/bin/Debug/net9.0/fr-FR/ldvs.Core.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/bin/Debug/net9.0/ldvs.Core.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/bin/Debug/net9.0/ldvs.Core.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/bin/Debug/net9.0/ldvs.Core.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/bin/Debug/net9.0/ldvs.Core.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/bin/Debug/net9.0/ldvs.Core.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/bin/Debug/net9.0/ldvs.Core.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/bin/Release/net9.0/es-ES/ldvs.Core.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/bin/Release/net9.0/es-ES/ldvs.Core.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/bin/Release/net9.0/fr-FR/ldvs.Core.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/bin/Release/net9.0/fr-FR/ldvs.Core.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/bin/Release/net9.0/ldvs.Core.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/bin/Release/net9.0/ldvs.Core.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/bin/Release/net9.0/ldvs.Core.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/bin/Release/net9.0/ldvs.Core.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/ldvs.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/ldvs.Core.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/ldvsGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/ldvsGame.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/es-ES/ldvs.Core.resources.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/es-ES/ldvs.Core.resources.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/es-ES/ldvs.Core.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/es-ES/ldvs.Core.resources.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/fr-FR/ldvs.Core.resources.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/fr-FR/ldvs.Core.resources.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/fr-FR/ldvs.Core.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/fr-FR/ldvs.Core.resources.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ldvs.Core.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ref/ldvs.Core.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/ref/ldvs.Core.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/refint/ldvs.Core.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Debug/net9.0/refint/ldvs.Core.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/es-ES/ldvs.Core.resources.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/es-ES/ldvs.Core.resources.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/es-ES/ldvs.Core.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/es-ES/ldvs.Core.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/fr-FR/ldvs.Core.resources.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/fr-FR/ldvs.Core.resources.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/fr-FR/ldvs.Core.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/fr-FR/ldvs.Core.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/ldvs.Core.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/ldvs.Core.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/ldvs.Core.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/ldvs.Core.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/ldvs.Core.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/ldvs.Core.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/ldvs.Core.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/ldvs.Core.csproj.FileListAbsolute.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/ldvs.Core.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/ldvs.Core.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/ldvs.Core.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/ldvs.Core.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/ref/ldvs.Core.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/ref/ldvs.Core.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/refint/ldvs.Core.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/Release/net9.0/refint/ldvs.Core.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/ldvs.Core.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/ldvs.Core.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/ldvs.Core.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/ldvs.Core.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.Core/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.Core/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/MP3Sharp.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/MonoSound.dll" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/es-ES/ldvs.Core.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/es-ES/ldvs.Core.resources.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/fr-FR/ldvs.Core.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/fr-FR/ldvs.Core.resources.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/ldvs.Core.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/ldvs.Core.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/ldvs.Core.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/ldvs.Core.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/ldvs.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/ldvs.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/ldvs.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/ldvs.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/ldvs.exe" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/ldvs.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/ldvs.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Debug/net9.0/ldvs.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/Content/Sprites/Playfield/Notes/sp_note_bumper_timing_stargazers_0.xnb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/Content/Sprites/Playfield/Notes/sp_note_bumper_timing_stargazers_2.xnb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/Content/Sprites/Playfield/Notes/sp_note_bumper_timing_stargazers_ln0.xnb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/Content/Sprites/Playfield/Notes/sp_note_bumper_timing_stargazers_ln2.xnb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/es-ES/ldvs.Core.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/es-ES/ldvs.Core.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/fr-FR/ldvs.Core.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/fr-FR/ldvs.Core.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/ldvs.Core.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/ldvs.Core.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/ldvs.Core.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/ldvs.Core.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/ldvs.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/ldvs.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/ldvs.exe" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/ldvs.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/ldvs.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/bin/Release/net9.0/ldvs.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/ldvs.DesktopGL.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/ldvs.DesktopGL.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.DesktopGL.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.DesktopGL.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.DesktopGL.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.DesktopGL.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.DesktopGL.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.DesktopGL.assets.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.DesktopGL.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.DesktopGL.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.DesktopGL.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.DesktopGL.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.DesktopGL.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.DesktopGL.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ldvs.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ref/ldvs.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/ref/ldvs.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/refint/ldvs.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Debug/net9.0/refint/ldvs.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/apphost.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ldvs.DesktopGL.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ldvs.DesktopGL.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ldvs.DesktopGL.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ldvs.DesktopGL.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ldvs.DesktopGL.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ldvs.DesktopGL.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ldvs.DesktopGL.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ldvs.DesktopGL.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ldvs.DesktopGL.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ldvs.DesktopGL.csproj.FileListAbsolute.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ldvs.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ldvs.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ldvs.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ldvs.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ref/ldvs.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/ref/ldvs.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/refint/ldvs.dll" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/Release/net9.0/refint/ldvs.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/ldvs.DesktopGL.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/ldvs.DesktopGL.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/ldvs.DesktopGL.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/ldvs.DesktopGL.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.DesktopGL/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.DesktopGL/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ldvs.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/ldvs.sln.DotSettings.user" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,12 +87,12 @@
     <setting file="file://$PROJECT_DIR$/ldvs.Core/Content/Entities/Conductor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ldvs.Core/Content/Entities/Logging.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ldvs.Core/Content/Entities/Mods.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/ldvs.Core/Content/Entities/OptionsMenu.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ldvs.Core/Content/Entities/Playfield/NoteDrawer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ldvs.Core/Content/Entities/Playfield/NoteJudgementIndicator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ldvs.Core/Content/Entities/Playfield/NoteUpdater.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ldvs.Core/Content/Entities/Playfield/Playfield.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ldvs.Core/Content/Entities/Scene.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ldvs.Core/Content/Entities/Settings.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ldvs.Core/Content/Entities/SongParsing/.osu.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ldvs.Core/Content/Entities/SongParsing/.vs.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ldvs.Core/Content/Entities/SongParsing/.vsb.cs" root0="FORCE_HIGHLIGHTING" />
@@ -257,7 +178,8 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="500" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="weeeeeeeeeeeeeeeee" />
-    <option name="LAST_COMMIT_MESSAGE" value="weeeeeeeeeeeeeeeee" />
+    <MESSAGE value="bgjhn" />
+    <option name="LAST_COMMIT_MESSAGE" value="bgjhn" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
